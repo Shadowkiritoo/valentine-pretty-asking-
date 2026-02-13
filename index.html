@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine? 💜</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #2d1b4e, #4b0082, #8a2be2, #da70d6);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 50px 40px;
+      width: 400px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emoji {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite;
+      display: block;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 48px;
+      color: white;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .question {
+      color: rgba(255,255,255,0.9);
+      font-size: 18px;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      position: relative;
+      height: 60px;
+    }
+
+    button {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .yes-btn {
+      background: linear-gradient(135deg, #ff6b9d, #c44569);
+      color: white;
+      box-shadow: 0 10px 30px rgba(196, 69, 105, 0.4);
+      z-index: 10;
+    }
+
+    .yes-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 40px rgba(196, 69, 105, 0.6);
+    }
+
+    .no-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+      position: absolute;
+      transition: all 0.2s ease;
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: rgba(255,255,255,0.6);
+      pointer-events: none;
+      animation: floatUp 8s linear infinite;
+      text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      90% { opacity: 0.8; }
+      100% {
+        transform: translateY(-100vh) rotate(720deg) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .angry-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .angry-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .angry-content {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      padding: 50px;
+      border-radius: 30px;
+      text-align: center;
+      color: white;
+      max-width: 400px;
+      transform: scale(0);
+      animation: popIn 0.5s forwards;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    @keyframes popIn {
+      to { transform: scale(1); }
+    }
+
+    .angry-emoji {
+      font-size: 100px;
+      margin-bottom: 20px;
+      animation: shake 0.5s infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .angry-text {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .angry-subtext {
+      font-size: 16px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .apologize-btn {
+      background: white;
+      color: #ff416c;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .apologize-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .success-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .success-modal.show {
+      display: flex;
+    }
+
+    .success-content {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 50px;
+      border-radius: 30px;
+      text-align: center;
+      color: white;
+      max-width: 450px;
+      transform: scale(0);
+      animation: popIn 0.5s forwards;
+    }
+
+    .success-emoji {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+
+    .success-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .success-subtext {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .close-success {
+      background: white;
+      color: #764ba2;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+      <span class="emoji">💜</span>
+      <h1>Hey You!</h1>
+      <p class="question">
+        I've been thinking...<br>
+        You're pretty amazing ✨<br>
+        So I have to ask...
+      </p>
+      
+      <div class="buttons">
+        <button class="yes-btn" onclick="sayYes()">YES! 💕</button>
+        <button class="no-btn" id="noBtn" onmouseover="runAway()" onclick="howDareYou()">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Angry Modal -->
+  <div class="angry-modal" id="angryModal">
+    <div class="angry-content">
+      <div class="angry-emoji">😤</div>
+      <div class="angry-text">HOW DARE YOU!</div>
+      <div class="angry-subtext">
+        You think you can just click "No" on Valentine's Day?!<br>
+        Think again! 😤💢
+      </div>
+      <button class="apologize-btn" onclick="apologize()">
+        I'm Sorry! Take Me Back! 🥺
+      </button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="success-modal" id="successModal">
+    <div class="success-content">
+      <div class="success-emoji">🎉💜🎉</div>
+      <div class="success-text">She Said YES!</div>
+      <div class="success-subtext">
+        Best. Day. Ever!<br>
+        You just made me the happiest person alive!<br>
+        Here's to us! 💕✨
+      </div>
+      <button class="close-success" onclick="closeSuccess()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Floating hearts background
+    function createFloatingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = ['💜', '💕', '✨', '💖', '💝'][Math.floor(Math.random() * 5)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      heart.style.opacity = Math.random() * 0.5 + 0.3;
+      document.body.appendChild(heart);
+      
+      setTimeout(() => heart.remove(), 8000);
+    }
+
+    setInterval(createFloatingHeart, 400);
+
+    // No button runs away
+    function runAway() {
+      const btn = document.getElementById('noBtn');
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
+      
+      // Calculate random position within card bounds
+      const maxX = cardRect.width - 100;
+      const maxY = cardRect.height - 60;
+      
+      const randomX = Math.random() * maxX - 50;
+      const randomY = Math.random() * maxY + 100;
+      
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+      
+      // Change text occasionally
+      const texts = ['No', 'Nope', 'Nice try', 'Catch me!', '❌', 'Nah'];
+      btn.innerText = texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    // How dare you modal
+    function howDareYou() {
+      document.getElementById('angryModal').classList.add('show');
+      // Reset no button position
+      document.getElementById('noBtn').style.transform = 'translate(0,0)';
+      document.getElementById('noBtn').innerText = 'No';
+    }
+
+    // Apologize and go back
+    function apologize() {
+      document.getElementById('angryModal').classList.remove('show');
+    }
+
+    // Yes clicked
+    function sayYes() {
+      document.getElementById('successModal').classList.add('show');
+      // Celebration hearts
+      for (let i = 0; i < 20; i++) {
+        setTimeout(createFloatingHeart, i * 100);
+      }
+    }
+
+    function closeSuccess() {
+      document.getElementById('successModal').classList.remove('show');
+    }
+
+    // Keep no button in card on resize
+    window.addEventListener('resize', () => {
+      document.getElementById('noBtn').style.transform = 'translate(0,0)';
+    });
+  </script>
+
+</body>
+</html>

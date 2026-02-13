@@ -1,396 +1,1072 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be My Valentine? 💜</title>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;800&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #2d1b4e, #4b0082, #8a2be2, #da70d6);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .container {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-radius: 30px;
-      padding: 50px 40px;
-      width: 400px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .emoji {
-      font-size: 80px;
-      margin-bottom: 20px;
-      animation: bounce 2s infinite;
-      display: block;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 48px;
-      color: white;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .question {
-      color: rgba(255,255,255,0.9);
-      font-size: 18px;
-      margin-bottom: 40px;
-      line-height: 1.5;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      position: relative;
-      height: 60px;
-    }
-
-    button {
-      padding: 15px 40px;
-      border: none;
-      border-radius: 50px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .yes-btn {
-      background: linear-gradient(135deg, #ff6b9d, #c44569);
-      color: white;
-      box-shadow: 0 10px 30px rgba(196, 69, 105, 0.4);
-      z-index: 10;
-    }
-
-    .yes-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 15px 40px rgba(196, 69, 105, 0.6);
-    }
-
-    .no-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 2px solid rgba(255,255,255,0.3);
-      position: absolute;
-      transition: all 0.2s ease;
-    }
-
-    .floating-heart {
-      position: absolute;
-      color: rgba(255,255,255,0.6);
-      pointer-events: none;
-      animation: floatUp 8s linear infinite;
-      text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-    }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) rotate(0deg) scale(0);
-        opacity: 0;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Valentine Letter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aldrich&family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      10% { opacity: 1; }
-      90% { opacity: 0.8; }
-      100% {
-        transform: translateY(-100vh) rotate(720deg) scale(1.5);
-        opacity: 0;
+
+      html, body {
+        font-family: "Pixelify Sans", sans-serif;
+        background: linear-gradient(135deg, #1a0033, #4b0082, #8a2be2, #da70d6);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: fixed;
       }
-    }
 
-    .angry-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
 
-    .angry-modal.show {
-      display: flex;
-      opacity: 1;
-    }
+      /* Envelope Screen */
+      #envelope-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        z-index: 10;
+        animation: float 3s ease-in-out infinite;
+      }
 
-    .angry-content {
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      padding: 50px;
-      border-radius: 30px;
-      text-align: center;
-      color: white;
-      max-width: 400px;
-      transform: scale(0);
-      animation: popIn 0.5s forwards;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-    }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
 
-    @keyframes popIn {
-      to { transform: scale(1); }
-    }
+      #envelope {
+        width: 150px;
+        max-width: 40vw;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+      }
 
-    .angry-emoji {
-      font-size: 100px;
-      margin-bottom: 20px;
-      animation: shake 0.5s infinite;
-    }
+      #envelope-container p {
+        color: white;
+        font-size: 24px;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        letter-spacing: 0.1em;
+      }
 
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
+      /* Letter Screen - Fixed Frame */
+      #letter-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        z-index: 20;
+      }
 
-    .angry-text {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+      .letter-window {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        width: 100%;
+        max-width: 500px;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+      }
 
-    .angry-subtext {
-      font-size: 16px;
-      margin-bottom: 30px;
-      opacity: 0.9;
-    }
+      #letter-text {
+        font-size: 24px;
+        color: #4b0082;
+        line-height: 1.6;
+        min-height: 200px;
+        max-height: 250px;
+        overflow-y: auto;
+        width: 100%;
+        letter-spacing: 0.03em;
+        word-spacing: 0.05em;
+        text-align: center;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
 
-    .apologize-btn {
-      background: white;
-      color: #ff416c;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 50px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
+      /* Animated Bunny */
+      .bunny-container {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        margin: 15px 0;
+        flex-shrink: 0;
+        display: none;
+      }
 
-    .apologize-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    }
+      .bunny {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        animation: bunnyHop 1s ease-in-out infinite;
+      }
 
-    .success-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
+      @keyframes bunnyHop {
+        0%, 100% { transform: translateY(0) scale(1, 1); }
+        25% { transform: translateY(-15px) scale(0.95, 1.05); }
+        50% { transform: translateY(0) scale(1.05, 0.95); }
+        75% { transform: translateY(-8px) scale(0.98, 1.02); }
+      }
 
-    .success-modal.show {
-      display: flex;
-    }
+      .bunny-body {
+        width: 50px;
+        height: 45px;
+        background: #ffb6c1;
+        position: absolute;
+        bottom: 10px;
+        left: 25px;
+        border-radius: 50% 50% 45% 45%;
+        box-shadow: inset -5px -5px 0 rgba(0,0,0,0.1);
+      }
 
-    .success-content {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      padding: 50px;
-      border-radius: 30px;
-      text-align: center;
-      color: white;
-      max-width: 450px;
-      transform: scale(0);
-      animation: popIn 0.5s forwards;
-    }
+      .bunny-head {
+        width: 45px;
+        height: 40px;
+        background: #ffb6c1;
+        position: absolute;
+        top: 25px;
+        left: 27px;
+        border-radius: 50%;
+        box-shadow: inset -3px -3px 0 rgba(0,0,0,0.1);
+      }
 
-    .success-emoji {
-      font-size: 80px;
-      margin-bottom: 20px;
-    }
+      .bunny-ear-left, .bunny-ear-right {
+        width: 12px;
+        height: 35px;
+        background: #ffb6c1;
+        position: absolute;
+        top: -5px;
+        border-radius: 50% 50% 0 0;
+        animation: earWiggle 2s ease-in-out infinite;
+      }
 
-    .success-text {
-      font-family: 'Dancing Script', cursive;
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
-
-    .success-subtext {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-
-    .close-success {
-      background: white;
-      color: #764ba2;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-    <div class="card">
-      <span class="emoji">💜</span>
-      <h1>Hey You!</h1>
-      <p class="question">
-        I've been thinking...<br>
-        You're pretty amazing ✨<br>
-        So I have to ask...
-      </p>
+      .bunny-ear-left { 
+        left: 8px; 
+        transform: rotate(-10deg);
+        animation-delay: 0s;
+      }
       
-      <div class="buttons">
-        <button class="yes-btn" onclick="sayYes()">YES! 💕</button>
-        <button class="no-btn" id="noBtn" onmouseover="runAway()" onclick="howDareYou()">No</button>
+      .bunny-ear-right { 
+        right: 8px; 
+        transform: rotate(10deg);
+        animation-delay: 0.5s;
+      }
+
+      .bunny-ear-left::after, .bunny-ear-right::after {
+        content: '';
+        width: 6px;
+        height: 25px;
+        background: #ff69b4;
+        position: absolute;
+        top: 5px;
+        left: 3px;
+        border-radius: 50% 50% 0 0;
+      }
+
+      @keyframes earWiggle {
+        0%, 100% { transform: rotate(-10deg); }
+        50% { transform: rotate(-5deg); }
+      }
+
+      .bunny-ear-right {
+        animation-name: earWiggleRight;
+      }
+
+      @keyframes earWiggleRight {
+        0%, 100% { transform: rotate(10deg); }
+        50% { transform: rotate(5deg); }
+      }
+
+      .bunny-eye {
+        width: 6px;
+        height: 6px;
+        background: #4b0082;
+        position: absolute;
+        top: 12px;
+        border-radius: 50%;
+        animation: blink 3s steps(2) infinite;
+      }
+
+      .bunny-eye.left { left: 10px; }
+      .bunny-eye.right { right: 10px; }
+
+      @keyframes blink {
+        0%, 90%, 100% { transform: scaleY(1); }
+        95% { transform: scaleY(0.1); }
+      }
+
+      .bunny-nose {
+        width: 5px;
+        height: 4px;
+        background: #ff69b4;
+        position: absolute;
+        bottom: 12px;
+        left: 20px;
+        border-radius: 50%;
+      }
+
+      .bunny-mouth {
+        width: 10px;
+        height: 5px;
+        border-bottom: 2px solid #ff69b4;
+        position: absolute;
+        bottom: 8px;
+        left: 17px;
+        border-radius: 0 0 10px 10px;
+      }
+
+      .bunny-tail {
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        border-radius: 50%;
+        animation: tailWag 0.5s ease-in-out infinite;
+      }
+
+      @keyframes tailWag {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+      }
+
+      .bunny-paw-left, .bunny-paw-right {
+        width: 12px;
+        height: 8px;
+        background: #ffb6c1;
+        position: absolute;
+        bottom: 0;
+        border-radius: 50%;
+      }
+
+      .bunny-paw-left { left: 20px; }
+      .bunny-paw-right { right: 20px; }
+
+      /* Heart icon for question */
+      .heart-icon {
+        font-size: 50px;
+        margin: 10px 0;
+        animation: heartbeat 1.5s ease-in-out infinite;
+        filter: drop-shadow(0 5px 15px rgba(138, 43, 226, 0.4));
+        display: none;
+      }
+
+      @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        25% { transform: scale(1.1); }
+        50% { transform: scale(1); }
+        75% { transform: scale(1.05); }
+      }
+
+      .continue-btn {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 22px;
+        font-family: "Pixelify Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+        display: none;
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+        margin-top: 10px;
+      }
+
+      .continue-btn.show {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .continue-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .text-buttons {
+        display: none;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+        margin-top: 15px;
+      }
+
+      .text-btn {
+        padding: 15px 35px;
+        border: none;
+        border-radius: 50px;
+        font-size: 24px;
+        font-family: "Pixelify Sans", sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+
+      .yes-text-btn {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+        color: white;
+        box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+      }
+
+      .yes-text-btn:hover {
+        transform: scale(1.05);
+      }
+
+      .no-text-btn {
+        background: rgba(200,200,200,0.5);
+        color: #666;
+        border: 3px solid #999;
+        position: relative;
+      }
+
+      .no-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+
+      .no-wrapper.running {
+        position: fixed !important;
+        z-index: 100;
+        transition: all 0.3s ease;
+      }
+
+      .final-text {
+        color: #4b0082;
+        font-size: 18px;
+        margin-top: 15px;
+        line-height: 1.5;
+        text-align: center;
+        display: none;
+        flex-shrink: 0;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Angry Screen */
+      #angry-screen {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 1000;
+        padding: 20px;
+        animation: angryPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes angryPulse {
+        0%, 100% { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        50% { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
+      }
+
+      .angry-container {
+        text-align: center;
+        color: white;
+        max-width: 500px;
+      }
+
+      .angry-bunny {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        margin: 0 auto 20px;
+        animation: angryHop 0.3s ease-in-out infinite;
+      }
+
+      @keyframes angryHop {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(-5deg); }
+      }
+
+      .angry-bunny-body {
+        width: 50px;
+        height: 45px;
+        background: #ff6b6b;
+        position: absolute;
+        bottom: 10px;
+        left: 25px;
+        border-radius: 50% 50% 45% 45%;
+      }
+
+      .angry-bunny-head {
+        width: 45px;
+        height: 40px;
+        background: #ff6b6b;
+        position: absolute;
+        top: 25px;
+        left: 27px;
+        border-radius: 50%;
+        animation: headShake 0.5s ease-in-out infinite;
+      }
+
+      @keyframes headShake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        75% { transform: rotate(10deg); }
+      }
+
+      .angry-bunny-ear {
+        width: 12px;
+        height: 35px;
+        background: #ff6b6b;
+        position: absolute;
+        top: -5px;
+        border-radius: 50% 50% 0 0;
+      }
+
+      .angry-bunny-ear.left { 
+        left: 8px; 
+        transform: rotate(-20deg);
+      }
+      
+      .angry-bunny-ear.right { 
+        right: 8px; 
+        transform: rotate(20deg);
+      }
+
+      .angry-bunny-eye {
+        width: 8px;
+        height: 8px;
+        background: #000;
+        position: absolute;
+        top: 12px;
+        border-radius: 50%;
+        animation: angryBlink 0.3s steps(2) infinite;
+      }
+
+      @keyframes angryBlink {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(0.2); }
+      }
+
+      .angry-bunny-eye.left { left: 8px; }
+      .angry-bunny-eye.right { right: 8px; }
+
+      .angry-bunny-mouth {
+        width: 15px;
+        height: 10px;
+        border-top: 3px solid #000;
+        position: absolute;
+        bottom: 8px;
+        left: 15px;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .how-dare-text {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        animation: popText 0.5s ease;
+        letter-spacing: 0.05em;
+      }
+
+      @keyframes popText {
+        0% { transform: scale(0); }
+        80% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+
+      .angry-subtext {
+        font-size: 22px;
+        margin-bottom: 30px;
+        opacity: 0.95;
+        line-height: 1.5;
+      }
+
+      .go-back-btn {
+        background: white;
+        color: #ff416c;
+        border: none;
+        padding: 15px 35px;
+        border-radius: 50px;
+        font-size: 20px;
+        font-family: "Pixelify Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        letter-spacing: 0.05em;
+        font-weight: 600;
+      }
+
+      .go-back-btn:hover {
+        transform: scale(1.05);
+      }
+
+      /* Success Screen */
+      #success-screen {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+        background-size: 400% 400%;
+        animation: gradientShift 10s ease infinite;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 1000;
+        text-align: center;
+        color: white;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .success-content {
+        max-width: 500px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .happy-bunny {
+        width: 120px;
+        height: 120px;
+        position: relative;
+        margin-bottom: 20px;
+        animation: happyHop 0.6s ease-in-out infinite;
+      }
+
+      @keyframes happyHop {
+        0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+        50% { transform: translateY(-20px) scale(1.1) rotate(5deg); }
+      }
+
+      .happy-bunny-body {
+        width: 60px;
+        height: 55px;
+        background: #ffb6c1;
+        position: absolute;
+        bottom: 15px;
+        left: 30px;
+        border-radius: 50% 50% 45% 45%;
+      }
+
+      .happy-bunny-head {
+        width: 55px;
+        height: 50px;
+        background: #ffb6c1;
+        position: absolute;
+        top: 30px;
+        left: 32px;
+        border-radius: 50%;
+      }
+
+      .happy-bunny-ear {
+        width: 15px;
+        height: 40px;
+        background: #ffb6c1;
+        position: absolute;
+        top: -5px;
+        border-radius: 50% 50% 0 0;
+        animation: happyEarWiggle 0.5s ease-in-out infinite;
+      }
+
+      .happy-bunny-ear.left { 
+        left: 10px; 
+        transform: rotate(-15deg);
+      }
+      
+      .happy-bunny-ear.right { 
+        right: 10px; 
+        transform: rotate(15deg);
+        animation-delay: 0.25s;
+      }
+
+      @keyframes happyEarWiggle {
+        0%, 100% { transform: rotate(-15deg); }
+        50% { transform: rotate(-25deg); }
+      }
+
+      .happy-bunny-eye {
+        width: 8px;
+        height: 8px;
+        background: #4b0082;
+        position: absolute;
+        top: 15px;
+        border-radius: 50%;
+        animation: happyBlink 0.5s steps(2) infinite;
+      }
+
+      @keyframes happyBlink {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(0.2); }
+      }
+
+      .happy-bunny-eye.left { left: 12px; }
+      .happy-bunny-eye.right { right: 12px; }
+
+      .happy-bunny-mouth {
+        width: 20px;
+        height: 10px;
+        border-bottom: 3px solid #ff69b4;
+        position: absolute;
+        bottom: 15px;
+        left: 17px;
+        border-radius: 0 0 15px 15px;
+      }
+
+      .happy-bunny-tail {
+        width: 18px;
+        height: 18px;
+        background: #fff;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        border-radius: 50%;
+        animation: happyTail 0.3s ease-in-out infinite;
+      }
+
+      @keyframes happyTail {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.3) rotate(20deg); }
+      }
+
+      .success-title {
+        font-size: 40px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        font-family: "Aldrich", sans-serif;
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+      }
+
+      .success-text {
+        font-size: 22px;
+        line-height: 1.6;
+        letter-spacing: 0.03em;
+        margin-bottom: 20px;
+      }
+
+      .floating-hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 5;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 24px;
+        animation: floatHeart 6s linear infinite;
+        opacity: 0.6;
+      }
+
+      @keyframes floatHeart {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Mobile optimizations */
+      @media (max-width: 600px) {
+        .letter-window {
+          padding: 25px;
+          max-height: 90vh;
+        }
+
+        #letter-text {
+          font-size: 22px;
+          min-height: 180px;
+        }
+
+        .bunny-container, .angry-bunny, .happy-bunny {
+          width: 80px;
+          height: 80px;
+        }
+
+        .text-btn {
+          font-size: 22px;
+          padding: 12px 30px;
+        }
+
+        .how-dare-text {
+          font-size: 32px;
+        }
+
+        .success-title {
+          font-size: 36px;
+        }
+
+        .success-text {
+          font-size: 20px;
+        }
+      }
+
+      @media (max-height: 700px) {
+        .letter-window {
+          max-height: 95vh;
+        }
+        
+        #letter-text {
+          min-height: 150px;
+        }
+
+        .bunny-container {
+          margin: 10px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts" id="hearts-container"></div>
+
+    <!-- Envelope Screen -->
+    <div id="envelope-container" onclick="openLetter()">
+      <img src="https://cdn-icons-png.flaticon.com/512/6460/6460734.png" alt="Envelope" id="envelope" />
+      <p>♡ Letter for You ♡</p>
+    </div>
+
+    <!-- Letter Screen -->
+    <div id="letter-container">
+      <div class="letter-window">
+        <div id="letter-text"></div>
+        
+        <!-- Cute Bunny (hidden initially) -->
+        <div class="bunny-container" id="bunnyIcon">
+          <div class="bunny">
+            <div class="bunny-head">
+              <div class="bunny-ear-left"></div>
+              <div class="bunny-ear-right"></div>
+              <div class="bunny-eye left"></div>
+              <div class="bunny-eye right"></div>
+              <div class="bunny-nose"></div>
+              <div class="bunny-mouth"></div>
+            </div>
+            <div class="bunny-body"></div>
+            <div class="bunny-tail"></div>
+            <div class="bunny-paw-left"></div>
+            <div class="bunny-paw-right"></div>
+          </div>
+        </div>
+
+        <div class="heart-icon" id="heartIcon">💜</div>
+
+        <button class="continue-btn" id="continueBtn" onclick="continueToQuestion()">Continue ➜</button>
+
+        <div class="text-buttons" id="choiceButtons">
+          <button class="text-btn yes-text-btn" onclick="handleYes()">YES! 💜</button>
+          <div class="no-wrapper" id="noWrapper">
+            <button class="text-btn no-text-btn" id="noBtn" onclick="handleNo()" onmouseover="runAway()">No... 🤔</button>
+          </div>
+        </div>
+
+        <div class="text-buttons" id="finalButtons">
+          <button class="text-btn yes-text-btn" onclick="handleYes()">YES! 💜</button>
+          <button class="text-btn yes-text-btn" onclick="handleYes()" style="background: linear-gradient(135deg, #da70d6, #ff1493);">ABSOLUTELY YES! 💕</button>
+        </div>
+
+        <p id="final-text" class="final-text">
+          <strong>Valentine Date:</strong> Meow Restaurant at 7pm. Dress fancy! 🐱
+        </p>
       </div>
     </div>
-  </div>
 
-  <!-- Angry Modal -->
-  <div class="angry-modal" id="angryModal">
-    <div class="angry-content">
-      <div class="angry-emoji">😤</div>
-      <div class="angry-text">HOW DARE YOU!</div>
-      <div class="angry-subtext">
-        You think you can just click "No" on Valentine's Day?!<br>
-        Think again! 😤💢
+    <!-- Angry Screen -->
+    <div id="angry-screen">
+      <div class="angry-container">
+        <div class="angry-bunny">
+          <div class="angry-bunny-head">
+            <div class="angry-bunny-ear left"></div>
+            <div class="angry-bunny-ear right"></div>
+            <div class="angry-bunny-eye left"></div>
+            <div class="angry-bunny-eye right"></div>
+            <div class="angry-bunny-mouth"></div>
+          </div>
+          <div class="angry-bunny-body"></div>
+        </div>
+        <div class="how-dare-text">HOW DARE YOU!</div>
+        <div class="angry-subtext">
+          You can't say no to this bunny!<br>
+          Go back and choose wisely!
+        </div>
+        <button class="go-back-btn" onclick="goBack()">Take me back! I want to say YES! 🥺</button>
       </div>
-      <button class="apologize-btn" onclick="apologize()">
-        I'm Sorry! Take Me Back! 🥺
-      </button>
     </div>
-  </div>
 
-  <!-- Success Modal -->
-  <div class="success-modal" id="successModal">
-    <div class="success-content">
-      <div class="success-emoji">🎉💜🎉</div>
-      <div class="success-text">She Said YES!</div>
-      <div class="success-subtext">
-        Best. Day. Ever!<br>
-        You just made me the happiest person alive!<br>
-        Here's to us! 💕✨
+    <!-- Success Screen -->
+    <div id="success-screen">
+      <div class="success-content">
+        <div class="happy-bunny">
+          <div class="happy-bunny-head">
+            <div class="happy-bunny-ear left"></div>
+            <div class="happy-bunny-ear right"></div>
+            <div class="happy-bunny-eye left"></div>
+            <div class="happy-bunny-eye right"></div>
+            <div class="happy-bunny-mouth"></div>
+          </div>
+          <div class="happy-bunny-body"></div>
+          <div class="happy-bunny-tail"></div>
+        </div>
+        <div class="success-title">SHE SAID YES!</div>
+        <div class="success-text">
+          You just made me the happiest person in the universe!<br>
+          Your smile brightens my darkest days.<br>
+          I promise to make every day as beautiful as you are.<br>
+          Happy Valentine's Day to my favorite bunny!
+        </div>
       </div>
-      <button class="close-success" onclick="closeSuccess()">Close</button>
     </div>
-  </div>
 
-  <script>
-    // Floating hearts background
-    function createFloatingHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      heart.innerHTML = ['💜', '💕', '✨', '💖', '💝'][Math.floor(Math.random() * 5)];
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-      heart.style.opacity = Math.random() * 0.5 + 0.3;
-      document.body.appendChild(heart);
-      
-      setTimeout(() => heart.remove(), 8000);
-    }
+    <script>
+      let noCount = 0;
+      let isFinalStage = false;
 
-    setInterval(createFloatingHeart, 400);
+      const compliments = [
+        "My dearest bunny...",
+        "You are the most amazing person I've ever met.",
+        "Your smile lights up my entire world.",
+        "Your laugh is my favorite sound.",
+        "Every day with you is a gift.",
+        "I have something very special to ask you..."
+      ];
 
-    // No button runs away
-    function runAway() {
-      const btn = document.getElementById('noBtn');
-      const card = document.querySelector('.card');
-      const cardRect = card.getBoundingClientRect();
-      
-      // Calculate random position within card bounds
-      const maxX = cardRect.width - 100;
-      const maxY = cardRect.height - 60;
-      
-      const randomX = Math.random() * maxX - 50;
-      const randomY = Math.random() * maxY + 100;
-      
-      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-      
-      // Change text occasionally
-      const texts = ['No', 'Nope', 'Nice try', 'Catch me!', '❌', 'Nah'];
-      btn.innerText = texts[Math.floor(Math.random() * texts.length)];
-    }
-
-    // How dare you modal
-    function howDareYou() {
-      document.getElementById('angryModal').classList.add('show');
-      // Reset no button position
-      document.getElementById('noBtn').style.transform = 'translate(0,0)';
-      document.getElementById('noBtn').innerText = 'No';
-    }
-
-    // Apologize and go back
-    function apologize() {
-      document.getElementById('angryModal').classList.remove('show');
-    }
-
-    // Yes clicked
-    function sayYes() {
-      document.getElementById('successModal').classList.add('show');
-      // Celebration hearts
-      for (let i = 0; i < 20; i++) {
-        setTimeout(createFloatingHeart, i * 100);
+      // Create floating hearts
+      function createHearts() {
+        const container = document.getElementById('hearts-container');
+        const hearts = ['💜', '💖', '💕', '✨', '💝'];
+        
+        setInterval(() => {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+          heart.style.left = Math.random() * 100 + 'vw';
+          heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+          heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+          container.appendChild(heart);
+          
+          setTimeout(() => heart.remove(), 7000);
+        }, 600);
       }
-    }
 
-    function closeSuccess() {
-      document.getElementById('successModal').classList.remove('show');
-    }
+      createHearts();
 
-    // Keep no button in card on resize
-    window.addEventListener('resize', () => {
-      document.getElementById('noBtn').style.transform = 'translate(0,0)';
-    });
-  </script>
+      function openLetter() {
+        document.getElementById('envelope-container').style.display = 'none';
+        document.getElementById('letter-container').style.display = 'flex';
+        
+        typeWriterEffect();
+      }
 
-</body>
+      // Typewriter effect for compliments
+      function typeWriterEffect() {
+        const textContainer = document.getElementById('letter-text');
+        let currentLine = 0;
+        let currentChar = 0;
+        let currentText = '';
+        
+        function typeNextChar() {
+          if (currentLine < compliments.length) {
+            const line = compliments[currentLine];
+            
+            if (currentChar < line.length) {
+              // Still typing current line
+              currentText += line.charAt(currentChar);
+              textContainer.innerHTML = currentText + '<span class="cursor">|</span>';
+              currentChar++;
+              setTimeout(typeNextChar, 60); // 60ms per character
+            } else {
+              // Finished current line, move to next
+              currentText += '<br><br>';
+              currentLine++;
+              currentChar = 0;
+              
+              if (currentLine === compliments.length) {
+                // All done, show continue button
+                textContainer.innerHTML = currentText;
+                setTimeout(() => {
+                  document.getElementById('continueBtn').classList.add('show');
+                }, 500);
+              } else {
+                // Pause before next line
+                setTimeout(typeNextChar, 800);
+              }
+            }
+          }
+        }
+        
+        typeNextChar();
+      }
+
+      function continueToQuestion() {
+        document.getElementById('continueBtn').style.display = 'none';
+        document.getElementById('bunnyIcon').style.display = 'block';
+        document.getElementById('heartIcon').style.display = 'block';
+        
+        // Type out the question too
+        const textContainer = document.getElementById('letter-text');
+        const question = "Will you be my Valentine?";
+        let charIndex = 0;
+        let typedText = '';
+        
+        function typeQuestion() {
+          if (charIndex < question.length) {
+            typedText += question.charAt(charIndex);
+            textContainer.innerHTML = typedText + '<span class="cursor">|</span>';
+            charIndex++;
+            setTimeout(typeQuestion, 80);
+          } else {
+            textContainer.innerHTML = typedText;
+            document.getElementById('choiceButtons').style.display = 'flex';
+          }
+        }
+        
+        typeQuestion();
+      }
+
+      function runAway() {
+        if (isFinalStage) return;
+        
+        const btn = document.getElementById('noBtn');
+        const wrapper = document.getElementById('noWrapper');
+        const windowRect = document.querySelector('.letter-window').getBoundingClientRect();
+        
+        const padding = 20;
+        const maxX = windowRect.width - 150;
+        const maxY = windowRect.height - 80;
+        
+        const randomX = Math.floor(Math.random() * (maxX - padding) + padding);
+        const randomY = Math.floor(Math.random() * (maxY - 150) + 100);
+        
+        wrapper.classList.add('running');
+        wrapper.style.left = (windowRect.left + randomX) + 'px';
+        wrapper.style.top = (windowRect.top + randomY) + 'px';
+        
+        const texts = ['No?', 'Really?', 'Think again!', 'Nope!', '❌', 'Sure?'];
+        if (Math.random() > 0.7) {
+          btn.innerText = texts[Math.floor(Math.random() * texts.length)];
+        }
+      }
+
+      function handleNo() {
+        noCount++;
+        
+        if (noCount >= 3) {
+          enterFinalStage();
+        } else {
+          showAngry();
+        }
+      }
+
+      function showAngry() {
+        document.getElementById('letter-container').style.display = 'none';
+        document.getElementById('angry-screen').style.display = 'flex';
+      }
+
+      function goBack() {
+        document.getElementById('angry-screen').style.display = 'none';
+        document.getElementById('letter-container').style.display = 'flex';
+        
+        const wrapper = document.getElementById('noWrapper');
+        wrapper.classList.remove('running');
+        wrapper.style.position = 'relative';
+        wrapper.style.left = 'auto';
+        wrapper.style.top = 'auto';
+        document.getElementById('noBtn').innerText = 'No... 🤔';
+      }
+
+      function enterFinalStage() {
+        isFinalStage = true;
+        
+        document.getElementById('choiceButtons').style.display = 'none';
+        document.getElementById('finalButtons').style.display = 'flex';
+        
+        // Type out final message
+        const textContainer = document.getElementById('letter-text');
+        const finalMsg = "No more games! Say YES! 💜";
+        let charIndex = 0;
+        let typedText = '';
+        
+        function typeFinal() {
+          if (charIndex < finalMsg.length) {
+            typedText += finalMsg.charAt(charIndex);
+            textContainer.innerHTML = typedText;
+            charIndex++;
+            setTimeout(typeFinal, 60);
+          }
+        }
+        
+        typeFinal();
+      }
+
+      function handleYes() {
+        document.getElementById('letter-container').style.display = 'none';
+        document.getElementById('angry-screen').style.display = 'none';
+        document.getElementById('success-screen').style.display = 'flex';
+        
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💜', '💖', '🎉', '✨', '🐰'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
+            heart.style.animationDuration = '3s';
+            document.getElementById('success-screen').appendChild(heart);
+          }, i * 100);
+        }
+      }
+    </script>
+  </body>
 </html>
